@@ -1,0 +1,35 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/orders.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <% if (orders.length <= 0) { %>
+                <h1>Nothing there!</h1>
+            <% } else { %>
+                <ul class="orders">
+                    <% orders.forEach(order => { %>
+                        <li class="orders__item">
+                            <h1>Order - # <%= order._id %> <span><a href="/orders/<%= order._id %>">Invoice</a></span></h1>
+                            
+                            <ul class="orders__products">
+                                <% var sum_price=0; %>
+                                <% order.products.forEach(p => { %>
+                                    <!-- <li class="orders__products-item"><%= p.product.title %> (<%= p.quantity %>) $ -> <%= p.quantity*p.product.price%> </li> -->
+                                    <li class="orders__products-item">
+                                        <% sum_price+= p.quantity*p.product.price %>
+                                        <span ><%= p.product.title %> (<%= p.quantity %>)</span>
+                                        <span style="margin-left: 400px;">$ -> <%= p.quantity*p.product.price%></span>
+                                    </li>
+                                <% }); %>
+                                <div style="margin-left: 400px;">
+                                    Total Price: $ -> <%= sum_price.toFixed(2) %>
+                                </div>
+                            </ul>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>
