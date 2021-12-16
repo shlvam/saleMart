@@ -1,5 +1,5 @@
-// shivam kumar
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 // const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -8,8 +8,10 @@ const MongoDBStore= require('connect-mongodb-session')(session);    // exception
 const csurf=require('csurf');
 const flash=require('connect-flash');
 const multer=require('multer');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
-console.log(process.env.MONGO_DB);
 const User = require('./models/user');                              
 
 const app = express();
@@ -56,7 +58,16 @@ const fileFilter=(req, file, cbFunc)=>{
   }
 };
 
+// creating a stream of log file for morgan in append mode
+const logStream=fs.createWriteStream(
+  path.join(__dirname, 'reqLog.log'),
+  {flags: 'a'}
+);
+
 app.use(multer({storage: fileStore, fileFilter: fileFilter}).single('imageUrl'));
+app.use(helmet());    //secure Express apps by setting various HTTP headers. 
+app.use(compression());   //payload size is dramatically reduced above 70%.
+app.use(morgan('combined', {stream: logStream}));     // for creating log file for all request and errors
 
 // making these available on web
 app.use(express.static(path.join(__dirname, 'public')));
