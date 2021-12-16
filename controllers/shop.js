@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const stripe = require('stripe')('sk_test_51JrLRqSHGVrzBpCiEcmhFkqLRmwWW7dlPUZx71MvUry2eKl3ndy2eMZ2tNxneasPrjoME5I4FZLhscseHvKYXfet00G8E3dMHQ');
+const stripe = require('stripe')(process.env.STRIPE_KEY.trim());    // space from .json
 const pdfDoc = require('pdfkit');
 
 const Product = require('../models/product');

@@ -9,6 +9,7 @@ const csurf=require('csurf');
 const flash=require('connect-flash');
 const multer=require('multer');
 
+console.log(process.env.MONGO_DB);
 const User = require('./models/user');                              
 
 const app = express();
@@ -20,7 +21,7 @@ app.set('views', 'views');      // key, folder_name
 // setting all variables to be used later in app.js
 const csrfProtection=csurf();       // returns a middleware function name
 const flashMsg = flash();
-const MONGODB_URI= 'mongodb://localhost:27017/productdb';
+const MONGODB_URI= `mongodb://localhost:${process.env.MONGO_PORT.trim()}/${process.env.MONGO_DB.trim()}`;    // space from .json
 // mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false
 
 const store= new MongoDBStore({       // important
@@ -129,7 +130,7 @@ mongoose
   )
   .then(result=>{
     console.log("connected with database");
-    app.listen(80);
+    app.listen(process.env.PORT || 80);
   })
   .catch(err => {
     console.log(err);
