@@ -11,7 +11,7 @@ const multer=require('multer');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
-
+const https = require('https');
 const User = require('./models/user');                              
 
 const app = express();
@@ -63,6 +63,10 @@ const logStream=fs.createWriteStream(
   path.join(__dirname, 'reqLog.log'),
   {flags: 'a'}
 );
+
+// // setting SSL server
+// const privateKey = fs.readFileSync('server.key');
+// const certificate = fs.readFileSync('server.cert');
 
 app.use(multer({storage: fileStore, fileFilter: fileFilter}).single('imageUrl'));
 app.use(helmet());    //secure Express apps by setting various HTTP headers. 
@@ -141,6 +145,9 @@ mongoose
   )
   .then(result=>{
     console.log("connected with database");
+    // https
+    //   .createServer({key: privateKey, cert: certificate}, app)
+    //   .listen(process.env.PORT || 80);
     app.listen(process.env.PORT || 80);
   })
   .catch(err => {
