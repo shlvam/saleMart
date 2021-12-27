@@ -133,7 +133,8 @@ exports.postCart = (req, res, next) => {
 exports.getCheckout = (req, res, next) => {
   let products;
   let total=0;
-
+  console.log("in getCheckout");
+  
   req.user
     .populate('cart.item.prodId')
     .execPopulate()

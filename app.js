@@ -23,7 +23,8 @@ app.set('views', 'views');      // key, folder_name
 // setting all variables to be used later in app.js
 const csrfProtection=csurf();       // returns a middleware function name
 const flashMsg = flash();
-const MONGODB_URI= `mongodb://localhost:${process.env.MONGO_PORT.trim()}/${process.env.MONGO_DB.trim()}`;    // space from .json
+const MONGODB_URI= `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.lntlf.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+// const MONGODB_URI= `mongodb://localhost:${process.env.MONGO_PORT.trim()}/${process.env.MONGO_DB.trim()}`;    // space from .json
 // mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false
 
 const store= new MongoDBStore({       // important
@@ -71,7 +72,7 @@ const logStream=fs.createWriteStream(
 app.use(multer({storage: fileStore, fileFilter: fileFilter}).single('imageUrl'));
 app.use(helmet());    //secure Express apps by setting various HTTP headers. 
 app.use(compression());   //payload size is dramatically reduced above 70%.
-app.use(morgan('combined', {stream: logStream}));     // for creating log file for all request and errors
+// app.use(morgan('combined', {stream: logStream}));     // for creating log file for all request and errors
 
 // making these available on web
 app.use(express.static(path.join(__dirname, 'public')));
@@ -148,7 +149,7 @@ mongoose
     // https
     //   .createServer({key: privateKey, cert: certificate}, app)
     //   .listen(process.env.PORT || 80);
-    app.listen(process.env.PORT || 80);
+    app.listen(process.env.PORT || 3000);
   })
   .catch(err => {
     console.log(err);
