@@ -19,7 +19,9 @@ app.set('views', 'views');      // key, folder_name
 // setting all variables to be used later in app.js
 const csrfProtection=csurf();       // returns a middleware function name
 const flashMsg = flash();
-const MONGODB_URI= 'mongodb://localhost:27017/productdb';
+// const MONGODB_URI= 'mongodb://localhost:27017/productdb';
+const MONGODB_URI= `mongodb+srv://shivam:123@cluster0.lntlf.mongodb.net/productdb?retryWrites=true&w=majority`;
+
 // mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false
 
 const store= new MongoDBStore({       // important
@@ -128,7 +130,7 @@ mongoose
   )
   .then(result=>{
     console.log("connected with database");
-    app.listen(80);
+    app.listen(3000);
   })
   .catch(err => {
     console.log(err);
