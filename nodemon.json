@@ -1,0 +1,8 @@
+{
+    "env" : {
+        "STRIPE_KEY" : "sk_test_51JrLRqSHGVrzBpCiEcmhFkqLRmwWW7dlPUZx71MvUry2eKl3ndy2eMZ2tNxneasPrjoME5I4FZLhscseHvKYXfet00G8E3dMHQ",
+        "MONGO_DB": "productdb",
+        "MONGO_USER" : "shivam",
+        "MONGO_PASS" : "123"
+    }
+}

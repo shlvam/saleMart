@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 // const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -7,7 +8,10 @@ const MongoDBStore= require('connect-mongodb-session')(session);    // exception
 const csurf=require('csurf');
 const flash=require('connect-flash');
 const multer=require('multer');
-
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
+const https = require('https');
 const User = require('./models/user');                              
 
 const app = express();
@@ -19,9 +23,8 @@ app.set('views', 'views');      // key, folder_name
 // setting all variables to be used later in app.js
 const csrfProtection=csurf();       // returns a middleware function name
 const flashMsg = flash();
-// const MONGODB_URI= 'mongodb://localhost:27017/productdb';
-const MONGODB_URI= `mongodb+srv://shivam:123@cluster0.lntlf.mongodb.net/productdb?retryWrites=true&w=majority`;
-
+const MONGODB_URI= `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.lntlf.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+// const MONGODB_URI= `mongodb://localhost:${process.env.MONGO_PORT.trim()}/${process.env.MONGO_DB.trim()}`;    // space from .json
 // mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false
 
 const store= new MongoDBStore({       // important
@@ -56,7 +59,20 @@ const fileFilter=(req, file, cbFunc)=>{
   }
 };
 
+// creating a stream of log file for morgan in append mode
+const logStream=fs.createWriteStream(
+  path.join(__dirname, 'reqLog.log'),
+  {flags: 'a'}
+);
+
+// // setting SSL server
+// const privateKey = fs.readFileSync('server.key');
+// const certificate = fs.readFileSync('server.cert');
+
 app.use(multer({storage: fileStore, fileFilter: fileFilter}).single('imageUrl'));
+app.use(helmet());    //secure Express apps by setting various HTTP headers. 
+app.use(compression());   //payload size is dramatically reduced above 70%.
+// app.use(morgan('combined', {stream: logStream}));     // for creating log file for all request and errors
 
 // making these available on web
 app.use(express.static(path.join(__dirname, 'public')));
@@ -130,7 +146,10 @@ mongoose
   )
   .then(result=>{
     console.log("connected with database");
-    app.listen(3000);
+    // https
+    //   .createServer({key: privateKey, cert: certificate}, app)
+    //   .listen(process.env.PORT || 80);
+    app.listen(process.env.PORT || 3000);
   })
   .catch(err => {
     console.log(err);

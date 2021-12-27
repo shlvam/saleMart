@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=production MONGO_PORT=27017 MONGO_DB=productdb MONGO_USER=shivam MONGO_PASS=123 STRIPE_KEY=sk_test_51JrLRqSHGVrzBpCiEcmhFkqLRmwWW7dlPUZx71MvUry2eKl3ndy2eMZ2tNxneasPrjoME5I4FZLhscseHvKYXfet00G8E3dMHQ nodemon app.js",
+    "start_dev": "nodemon app.js"
   },
   "author": "Shivam kumar",
   "license": "ISC",
@@ -15,6 +16,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.0.0",
     "csurf": "^1.11.0",
@@ -22,7 +24,9 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "express-validator": "^6.12.1",
-    "mongoose": "^5.13.5",
+    "helmet": "^4.6.0",
+    "mongoose": "^5.13.13",
+    "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "mysql2": "^2.2.5",
     "nodemailer": "^6.6.3",
