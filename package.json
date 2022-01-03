@@ -5,12 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production MONGO_DB=productdb MONGO_USER=shivam MONGO_PASS=123 STRIPE_KEY=sk_test_51JrLRqSHGVrzBpCiEcmhFkqLRmwWW7dlPUZx71MvUry2eKl3ndy2eMZ2tNxneasPrjoME5I4FZLhscseHvKYXfet00G8E3dMHQ nodemon app.js",
-    "start_dev": "nodemon app.js"
+    "start": "nodemon app.js"
   },
   "author": "Shivam kumar",
   "license": "ISC",
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
